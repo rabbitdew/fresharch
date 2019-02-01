@@ -36,7 +36,7 @@ mkfs.ext4 -q /dev/sda3
 mount /dev/sda3 /mnt
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 egrep -A1 '(United States|Canada)' /etc/pacman.d/mirrorlist.orig | tr -d '-' > /etc/pacman.d/mirrorlist
-pacstrap /mnt base gnome grub lsof openssh sudo tmux xorg xorg-server
+pacstrap /mnt base gnome grub lsof openssh sudo terminator tmux xorg xorg-server
 genfstab -U /mnt >> /mnt/etc/fstab
 cat <<EOF > /mnt/root/.bashrc
 ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
