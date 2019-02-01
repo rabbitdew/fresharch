@@ -36,7 +36,7 @@ mkfs.ext4 -q /dev/sda3
 mount /dev/sda3 /mnt
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 egrep -A1 '(United|Canada)' /etc/pacman.d/mirrorlist.orig | tr -d '-' > /etc/pacman.d/mirrorlist
-pacstrap /mnt base openssh git vim tmux lsof tcpdump zsh
+pacstrap /mnt base openssh git grub lsof tcpdump tmux zsh
 genfstab -U /mnt >> /mnt/etc/fstab
 cat <<EOF > /mnt/root/.bashrc
 ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
@@ -48,7 +48,6 @@ printf 'rabbitdewarch' > /etc/hostname
 printf "127.0.0.1\tlocalhost\n::1\tlocalhost\n127.0.1.1\trabbitdewarch" >> /etc/hosts
 echo "root:newpass" | chpasswd
 systemctl enable dhcpcd sshd
-pacman -Sy grub
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 exit 
