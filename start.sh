@@ -35,8 +35,8 @@ swapon /dev/sda2
 mkfs.ext4 -q /dev/sda3
 mount /dev/sda3 /mnt
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
-egrep -A1 '(United|Canada)' /etc/pacman.d/mirrorlist.orig | tr -d '-' > /etc/pacman.d/mirrorlist
-pacstrap /mnt base openssh git grub lsof tcpdump tmux zsh
+egrep -A1 '(United States|Canada)' /etc/pacman.d/mirrorlist.orig | tr -d '-' > /etc/pacman.d/mirrorlist
+pacstrap /mnt base gnome grub lsof openssh sudo tmux xorg xorg-server
 genfstab -U /mnt >> /mnt/etc/fstab
 cat <<EOF > /mnt/root/.bashrc
 ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
@@ -46,8 +46,11 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 hwclock --systohc
 printf 'rabbitdewarch' > /etc/hostname
 printf "127.0.0.1\tlocalhost\n::1\tlocalhost\n127.0.1.1\trabbitdewarch" >> /etc/hosts
-echo "root:newpass" | chpasswd
-systemctl enable dhcpcd sshd
+echo "root:changeme" | chpasswd
+echo "%wheel ALL=(ALL) ALL NOPASSWD: ALL
+useradd -G wheel -s /bin/zsh -m rabbitdew
+echo "rabbitdew:changeme" | chpasswd
+systemctl enable dhcpcd sshd gdm
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 exit 
